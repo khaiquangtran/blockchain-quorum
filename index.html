@@ -43,7 +43,7 @@
             var contract;
             var abi= [  {   "inputs": [    {     "internalType": "string",     "name": "_data",     "type": "string"    }   ],   "name": "nhapdata",   "outputs": [],   "stateMutability": "nonpayable",   "type": "function"  },  {   "inputs": [],   "name": "xuatdata",   "outputs": [    {     "internalType": "string",     "name": "",     "type": "string"    }   ],   "stateMutability": "view",   "type": "function"  } ];
             var address ="0x12b828b32ea5526E02Df92eEC1a0A34d0B38F9E0";
-            web3 = new Web3(new Web3.providers.HttpProvider("https://localhost:22000"));
+            web3 = new Web3(new Web3.providers.HttpProvider("http://14.172.136.172:22000"));
             contract = new web3.eth.Contract(abi,address);
             $("#xuat").click(function(){
                 contract.methods.xuatdata().call().then(function(data_in){
