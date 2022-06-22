@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xuat data</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <!--<script  src="./node_modules/web3/dist/web3.min.js"></script>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>-->
+    <style type="text/css">
+        #format_1{
+            color:blue;
+            font-family:'Times New Roman', Times, serif;
+            text-align:center;
+            font-weight: bold;
+        }
+        input {
+            padding:10px;
+            width: 20%;
+            margin-bottom: 1em;
+        }
+        #center_1{
+            text-align: center;
+            font-size:large;
+        }
+    </style>
+</head>
+<body>
+    <p id="format_1">Nhập dữ liệu</p>
+    <div id="center_1">
+        <input type="text" id="data" placeholder="Nhập dữ liệu vào!">
+        <br>
+        <button id="nhap"> Nhập </button>
+        <button id="xuat"> Xuất </button>
+
+        <p id="data_vao" > </p>
+    </div>
+    <script>
+        
+        $('#document').ready(function(){
+            var contract;
+            var abi= [  {   "inputs": [    {     "internalType": "string",     "name": "_data",     "type": "string"    }   ],   "name": "nhapdata",   "outputs": [],   "stateMutability": "nonpayable",   "type": "function"  },  {   "inputs": [],   "name": "xuatdata",   "outputs": [    {     "internalType": "string",     "name": "",     "type": "string"    }   ],   "stateMutability": "view",   "type": "function"  } ];
+            var address ="0x12b828b32ea5526E02Df92eEC1a0A34d0B38F9E0";
+            web3 = new Web3(new Web3.providers.HttpProvider("https://localhost:22000"));
+            contract = new web3.eth.Contract(abi,address);
+            $("#xuat").click(function(){
+                contract.methods.xuatdata().call().then(function(data_in){
+                    $("#data_vao").html(data_in);
+                }).catch(function(tx){
+                    console.log(tx);
+                })
+            })
+            $("#nhap").click(function(){
+                var _data = $("#data").val();
+                web3.eth.getAccounts().then(function(accounts){
+                    return contract.methods.nhapdata(_data).send({from: accounts[0]});
+                }).catch(function(tx){
+                    console.log(tx);
+                })
+            })
+        })
+    </script>
+</body>
+</html>
